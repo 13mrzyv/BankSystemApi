@@ -23,4 +23,5 @@ namespace BankSystem.SQL.Server.UnitOfWork
 
         public IUserRepository UserRepository => _userRepository ??= new UserRepository(_connectionString);
     }
+    
 }
