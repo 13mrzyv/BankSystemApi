@@ -10,19 +10,23 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BankSystem.Repository.UnitOfWork;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace BankSystem.Application.Services
 {
     public class PrizesBackGroundService : BackgroundService
     {
-        private readonly string _connectionString = "Data Source=DESKTOP-7B66A0I\\SQLEXPRESS;Initial Catalog=BankSystem;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False";
-        private readonly PrizeRepository _prizeRepository;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public PrizesBackGroundService(PrizeRepository prizeRepository)
+        public PrizesBackGroundService(IServiceProvider serviceProvider, IServiceScopeFactory serviceScopeFactory)
         {
-            _prizeRepository = prizeRepository;
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+            _serviceScopeFactory = serviceScopeFactory;
         }
+        
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             await SyncTableAsync();
@@ -32,7 +36,10 @@ namespace BankSystem.Application.Services
         {
             try
             {
-                await _prizeRepository.SyncTableQuery();
+                using var scope = _serviceScopeFactory.CreateScope();
+                var _unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+
+                await _unitOfWork.PrizeRepository.SyncTableQuery();
             }
             catch (Exception ex)
             {

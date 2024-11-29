@@ -9,16 +9,13 @@ using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddHostedService<PrizesBackGroundService>(); //
-
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPrizeService, PrizeService>();
 
-
+builder.Services.AddHostedService<PrizesBackGroundService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -39,5 +36,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-//
