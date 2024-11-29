@@ -1,16 +1,24 @@
 using BankSystem.Application.Services;
 using BankSystem.Domain.Services;
+using BankSystem.Repository.Repositories;
 using BankSystem.Repository.UnitOfWork;
+using BankSystem.SQL.Server.Repositories.PrizeRepository;
 using BankSystem.SQL.Server.UnitOfWork;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddHostedService<PrizesBackGroundService>(); //
 
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPrizeService, PrizeService>();
+
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

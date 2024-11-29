@@ -1,6 +1,7 @@
 ﻿using BankSystem.Repository.Repositories;
 using BankSystem.Repository.UnitOfWork;
 using BankSystem.SQL.Server.Repositories;
+using BankSystem.SQL.Server.Repositories.PrizeRepository;
 using BankSystem.SQL.Server.Repositories.UserRepository;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -15,6 +16,7 @@ namespace BankSystem.SQL.Server.UnitOfWork
     {
         private string _connectionString;
         private UserRepository _userRepository;
+        private PrizeRepository _prizeRepository;
 
         public UnitOfWork(IConfiguration configuration)
         {
@@ -22,6 +24,8 @@ namespace BankSystem.SQL.Server.UnitOfWork
         }
 
         public IUserRepository UserRepository => _userRepository ??= new UserRepository(_connectionString);
+
+        public IPrizeRepository PrizeRepository => _prizeRepository ??= new PrizeRepository(_connectionString);
     }
     
 }

@@ -10,5 +10,6 @@ namespace BankSystem.Repository.UnitOfWork
     public interface IUnitOfWork
     {
         public IUserRepository UserRepository { get; }
+        public IPrizeRepository PrizeRepository { get; }
     }
 }

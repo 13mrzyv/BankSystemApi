@@ -14,12 +14,10 @@ namespace BankSystem.Application.Services
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
-
         public UserService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
-
         public async Task<User> GetUserById(int userId)
         {
             var user = await _unitOfWork.UserRepository.GetUserById(userId);
@@ -27,7 +25,7 @@ namespace BankSystem.Application.Services
             {
                 return null;
             }
-            else 
+            else
             {
                 return user;
             }
@@ -44,7 +42,6 @@ namespace BankSystem.Application.Services
 
             return users;
         }
-
         public async Task<bool> InsertUser(UserInsertRequest request)  //
         {
             var result = await _unitOfWork.UserRepository.InsertUser(request);
@@ -67,5 +64,6 @@ namespace BankSystem.Application.Services
             var result = await _unitOfWork.UserRepository.UpdateUserById(user);
             return result;
         }
+        
     }
 }

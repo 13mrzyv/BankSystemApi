@@ -16,6 +16,5 @@ namespace BankSystem.Repository.Repositories
         Task<bool> InsertUser(UserInsertRequest request);  //
         Task<User> DeleteUserById(int userId);
         Task<bool> UpdateUserById(User user);
-
     }
 }

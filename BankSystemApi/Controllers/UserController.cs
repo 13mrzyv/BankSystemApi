@@ -4,6 +4,7 @@ using BankSystem.Domain.Entities;
 using BankSystem.Domain.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
 
 namespace BankSystemApi.Controllers
 {
@@ -17,13 +18,14 @@ namespace BankSystemApi.Controllers
         {
             _userService = userService;
         }
-
-        [HttpGet] // select
-        public async Task<Microsoft.AspNetCore.Mvc.IActionResult> GetUsers()
+        [HttpGet]
+        public async Task<IEnumerable> GetUsersAsync()
         {
             var users = await _userService.GetUsersAsync();
-            return Ok(users);
+            return users;
         }
+
+
         [HttpGet]
         public async Task<Microsoft.AspNetCore.Mvc.IActionResult> GetUserById(int userId)
         {
@@ -48,17 +50,5 @@ namespace BankSystemApi.Controllers
             var user1 = await _userService.UpdateUserById(user);
             return user1;
         }
-
-
-
-
-
-        //
-        //
-        //[HttpDelete] // delete
-
-        //[HttpPost] // insert
-
-        //[HttpPut] // update
     }
 }

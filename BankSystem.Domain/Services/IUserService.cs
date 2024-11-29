@@ -12,7 +12,7 @@ namespace BankSystem.Domain.Services
     {
         Task<IEnumerable<User>> GetUsersAsync();
         Task<User> GetUserById(int userId);
-        Task<bool> InsertUser(UserInsertRequest request);  //
+        Task<bool> InsertUser(UserInsertRequest request);  
         Task<User> DeleteUserById(int userId);
         Task<bool> UpdateUserById(User user);
     }
