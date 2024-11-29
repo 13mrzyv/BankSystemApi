@@ -25,31 +25,19 @@ namespace BankSystem.Application.Services
         }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await _prizeRepository.SyncTableAsync();
+            await SyncTableAsync();
             await Task.Delay(TimeSpan.FromSeconds(20), stoppingToken);
         }
-        //private async Task SyncTableAsync()
-        //{
-        //    try
-        //    {
-        //        using (var conn = new SqlConnection(_connectionString))
-        //        {
-        //            await conn.OpenAsync();
-        //            string query = @"insert into PrizeWinners(UserId,UserName,Prize,WinDate)
-        //                select u.UserId,u.Name,p.PrizeName,getdate() as WinDate
-        //                from Users u join Prizes p on u.PrizesBonus=p.RequiredBonus
-        //                where not exists (select 1 from PrizeWinners pm where pm.UserId=u.UserId)";
-        //            using (var command = new SqlCommand(query, conn))
-        //            {
-        //                int rowsAffected = await command.ExecuteNonQueryAsync();
-        //                Console.WriteLine($"{rowsAffected} added into PrizeWinners");
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine($"Error during sync: {ex.Message}");
-        //    }
-        //}
+        private async Task SyncTableAsync()
+        {
+            try
+            {
+                await _prizeRepository.SyncTableQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during sync: {ex.Message}");
+            }
+        }
     }
 }

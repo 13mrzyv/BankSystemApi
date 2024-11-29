@@ -13,6 +13,8 @@ namespace BankSystem.SQL.Server.Repositories.PrizeRepository
     public class PrizeRepository : BaseSqlRepository, IPrizeRepository
     {
         private readonly string _connectionString = "Data Source=DESKTOP-7B66A0I\\SQLEXPRESS;Initial Catalog=BankSystem;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False";
+        private object rowsAffected;
+
         public PrizeRepository(string connectionString) : base(connectionString)
         {
         }
@@ -60,28 +62,24 @@ namespace BankSystem.SQL.Server.Repositories.PrizeRepository
             await conn.CloseAsync();
             return InsertedColumbs != 0;
         }
-        public async Task SyncTableAsync()
+        public async Task<string> SyncTableQuery()
         {
-            try
-            {
-                using (var conn = new SqlConnection(_connectionString))
-                {
-                    await conn.OpenAsync();
-                    string query = @"insert into PrizeWinners(UserId,UserName,Prize,WinDate)
+            string query = @"insert into PrizeWinners(UserId,UserName,Prize,WinDate)
                         select u.UserId,u.Name,p.PrizeName,getdate() as WinDate
                         from Users u join Prizes p on u.PrizesBonus=p.RequiredBonus
                         where not exists (select 1 from PrizeWinners pm where pm.UserId=u.UserId)";
-                    using (var command = new SqlCommand(query, conn))
-                    {
-                        int rowsAffected = await command.ExecuteNonQueryAsync();
-                        Console.WriteLine($"{rowsAffected} added into PrizeWinners");
-                    }
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                await conn.OpenAsync();
+                using (var command = new SqlCommand(query, conn))
+                {
+                    int rowsAffected = await command.ExecuteNonQueryAsync();                 
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error during sync: {ex.Message}");
-            }
+            return $"{rowsAffected} added into PrizeWinners";
+
+
+
         }
     }
 }
