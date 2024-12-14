@@ -12,6 +12,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BankSystem.Repository.UnitOfWork;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace BankSystem.Application.Services
@@ -26,7 +28,11 @@ namespace BankSystem.Application.Services
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             _serviceScopeFactory = serviceScopeFactory;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 4468e1d35a2f76011cecbc930621a350efb422cb
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
