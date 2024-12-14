@@ -16,5 +16,6 @@ namespace BankSystem.Repository.Repositories
         Task<Prize> DeletePrizeById(int prizeId);
         Task<bool> InsertPrize(Prize prize);
         Task<bool> UpdatePrize(Prize prize);
+        Task SyncTableQuery();
     }
 }

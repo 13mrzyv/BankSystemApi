@@ -11,11 +11,7 @@ namespace BankSystem.Domain.Entities
     {
         public int UserId { get; set; }
         public string Name { get; set; }
-        public string Surname { get; set; }
         public bool IsDeleted { get; set; }
-        public string GmailAdress { get; set; }
-        public string Password { get; set; }
-        public string Number { get; set; }
         public int PrizesBonus { get; set; }
     }
 }

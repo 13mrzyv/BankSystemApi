@@ -11,5 +11,7 @@ namespace BankSystem.Repository.UnitOfWork
     {
         public IUserRepository UserRepository { get; }
         public IPrizeRepository PrizeRepository { get; }
+        //public IAuthRepository AuthRepository { get; }
+
     }
 }

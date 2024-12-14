@@ -17,6 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPrizeService, PrizeService>();
+//builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 

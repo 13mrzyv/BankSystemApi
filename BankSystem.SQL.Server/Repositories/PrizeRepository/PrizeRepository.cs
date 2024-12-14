@@ -81,6 +81,17 @@ namespace BankSystem.SQL.Server.Repositories.PrizeRepository
 
 
         }
+
+        async Task IPrizeRepository.SyncTableQuery()
+        {
+            var conn = await OpenSqlConnectionAsync();
+            await conn.ExecuteAsync(@"insert into PrizeWinners(UserId,UserName,Prize,WinDate)
+                        select u.UserId,u.Name,p.PrizeName,getdate() as WinDate
+                        from Users u join Prizes p on u.PrizesBonus=p.RequiredBonus
+                        where not exists (select 1 from PrizeWinners pm where pm.UserId=u.UserId)");
+
+            await conn.CloseAsync();
+        }
     }
 }
 

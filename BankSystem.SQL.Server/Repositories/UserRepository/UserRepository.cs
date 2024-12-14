@@ -45,14 +45,14 @@ namespace BankSystem.SQL.Server.Repositories.UserRepository
         public async Task<bool> UpdateUserById(User user)
         {
             var conn= await OpenSqlConnectionAsync();
-            var InsertedColumbs= await conn.ExecuteAsync($"update Users set Name=@name,Surname=@surname,GmailAdress=@gmailadress,Password=@password,Number=@number where UserId=@userId",new {userId=user.UserId, name = user.Name, surname = user.Surname, gmailadress=user.GmailAdress, password=user.Password, number=user.Number});
+            var InsertedColumbs= await conn.ExecuteAsync($"update Users set Name=@name where UserId=@userId",new {userId=user.UserId, name = user.Name});
             await conn.CloseAsync();
             return InsertedColumbs != 0;
         }
         public async Task<bool> InsertUser(UserInsertRequest request) 
         {
             var conn = await OpenSqlConnectionAsync();
-            var InsertedColumbs = await conn.ExecuteAsync($"INSERT INTO Users (UserId,Name,Surname,IsDeleted,GmailAdress,Password,Number,PrizesBonus) VALUES (@userid,@name,@surname,0,@gmailadress,@password,@number,0)", new {userid=request.UsertId, name = request.Name, surname = request.Surname, gmailadress=request.GmailAdress, password=request.Password, number=request.Number});
+            var InsertedColumbs = await conn.ExecuteAsync($"INSERT INTO Users (UserId,Name,IsDeleted,PrizesBonus) VALUES (@userid,@name,0,@prizebonus)", new {userid=request.UsertId, name = request.Name,prizebonus=request.PrizeBonus});
             await conn.CloseAsync();
             return InsertedColumbs != 0;
         }
