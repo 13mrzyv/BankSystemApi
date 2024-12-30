@@ -34,7 +34,6 @@ namespace BankSystemApi.Controllers
         [HttpPost]
         public async Task<LoginResponseModel> Login(LoginRequestModel loginRequestModel)
         {
-            LoginRequestModel request = new LoginRequestModel();
             LoginResponseModel loginResponseModel = new LoginResponseModel();
             if(ModelState.IsValid==false)
             {
@@ -43,9 +42,12 @@ namespace BankSystemApi.Controllers
             }
             else
             {
-                var token = await _tokenService.GenerateTokenAsync(request.GmailAdress);
-                loginResponseModel.token = token;
                 loginResponseModel = await _authService.Login(loginRequestModel);
+                if (loginResponseModel.sucsess)
+                {
+                    var token = await _tokenService.GenerateTokenAsync(loginRequestModel.GmailAdress);
+                    loginResponseModel.token = token;
+                }
             }
             return loginResponseModel;
         }

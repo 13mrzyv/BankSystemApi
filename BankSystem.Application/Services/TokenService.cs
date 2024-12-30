@@ -16,7 +16,7 @@ namespace BankSystem.Application.Services
         public async Task<string> GenerateTokenAsync(string UserName)
         {
             // JWT anahtarının olup olmadığını kontrol edin.
-            var jwtKey = _configuration["Security:jwtKey"];
+            var jwtKey = _configuration["JwtSettings:JwtKey"];
             if (string.IsNullOrEmpty(jwtKey))
             {
                 throw new InvalidOperationException("JWT anahtarı (Security:jwtKey) yapılandırmada eksik veya boş.");
