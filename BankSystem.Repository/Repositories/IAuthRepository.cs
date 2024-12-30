@@ -1,4 +1,5 @@
-﻿using BankSystem.Domain.Dtos.UserRequests;
+﻿using BankSystem.Domain.Dtos;
+using BankSystem.Domain.Dtos.UserRequests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace BankSystem.Repository.Repositories
     public interface IAuthRepository
     {
         Task<bool> CreateUser(CustomerRegistration _user);
+        Task<LoginResponseModel> Login(LoginRequestModel loginRequestModel);
     }
 }

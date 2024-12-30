@@ -11,5 +11,6 @@ namespace BankSystem.Domain.Services
     public interface IAuthService
     {
         Task<bool> CreateUser(CustomerRegistration _user);
+        Task<LoginResponseModel> Login(LoginRequestModel loginRequestModel);
     }
 }

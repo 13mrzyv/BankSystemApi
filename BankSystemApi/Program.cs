@@ -1,16 +1,47 @@
 using BankSystem.Application.Services;
+using BankSystem.Domain.Entities;
 using BankSystem.Domain.Services;
 using BankSystem.Repository.Repositories;
 using BankSystem.Repository.UnitOfWork;
 using BankSystem.SQL.Server.Repositories.PrizeRepository;
 using BankSystem.SQL.Server.UnitOfWork;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var jwtKey = jwtSettings["JwtKey"];
+
+if (string.IsNullOrEmpty(jwtKey))
+{
+    throw new InvalidOperationException("JWT anahtarý yapýlandýrmada eksik. Lütfen `JwtKey` deðerini `appsettings.json` dosyasýna ekleyin.");
+}
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = true; // Geliþtirme ortamýnda ise `false` olabilir
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtSettings["Issuer"],
+            ValidAudience = jwtSettings["Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]))
+        };
+    }); builder.Services.AddAuthorization();
+
 builder.Services.AddControllers();
 
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPrizeService, PrizeService>();
@@ -37,9 +68,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-<<<<<<< HEAD
 
-//
-//
-=======
->>>>>>> 4468e1d35a2f76011cecbc930621a350efb422cb

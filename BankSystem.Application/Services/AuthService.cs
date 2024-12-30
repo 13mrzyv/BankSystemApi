@@ -30,5 +30,11 @@ namespace BankSystem.Application.Services
             var result = await _unitOfWork.AuthRepository.CreateUser(_user);
             return result;
         }
+
+        public async Task<LoginResponseModel> Login(LoginRequestModel loginRequestModel)
+        {
+            var result = await _unitOfWork.AuthRepository.Login(loginRequestModel);
+            return result;
+        }
     }
 }

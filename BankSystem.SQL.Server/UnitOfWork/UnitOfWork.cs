@@ -1,4 +1,5 @@
-﻿using BankSystem.Repository.Repositories;
+﻿using BankSystem.Domain.Services;
+using BankSystem.Repository.Repositories;
 using BankSystem.Repository.UnitOfWork;
 using BankSystem.SQL.Server.Repositories;
 using BankSystem.SQL.Server.Repositories.AuthRepository;
@@ -19,14 +20,14 @@ namespace BankSystem.SQL.Server.UnitOfWork
         private UserRepository _userRepository;
         private PrizeRepository _prizeRepository;
         private AuthRepository _authRepository;
-
+        private IConfiguration configuration;
         public UnitOfWork(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("BankSystemConnectionString");
         }
 
         public IUserRepository UserRepository => _userRepository ??= new UserRepository(_connectionString);
-
+        
         public IPrizeRepository PrizeRepository => _prizeRepository ??= new PrizeRepository(_connectionString);
         public IAuthRepository AuthRepository => _authRepository ??= new AuthRepository(_connectionString);
     }

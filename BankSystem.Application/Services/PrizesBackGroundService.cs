@@ -28,11 +28,7 @@ namespace BankSystem.Application.Services
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             _serviceScopeFactory = serviceScopeFactory;
         }
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> 4468e1d35a2f76011cecbc930621a350efb422cb
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)

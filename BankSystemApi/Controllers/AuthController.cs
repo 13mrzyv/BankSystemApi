@@ -1,4 +1,5 @@
-﻿using Azure.Core;
+﻿using Amazon.Runtime.Internal;
+using Azure.Core;
 using BankSystem.Application.Services;
 using BankSystem.Domain.Dtos;
 using BankSystem.Domain.Dtos.UserRequests;
@@ -14,10 +15,14 @@ namespace BankSystemApi.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly ITokenService _tokenService;
+       
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, ITokenService tokenService)
         {
             _authService = authService;
+            _tokenService = tokenService;
+   
         }
 
         [HttpPost]
@@ -25,6 +30,24 @@ namespace BankSystemApi.Controllers
         {
             var user1 = await _authService.CreateUser(_user);
             return user1;
+        }
+        [HttpPost]
+        public async Task<LoginResponseModel> Login(LoginRequestModel loginRequestModel)
+        {
+            LoginRequestModel request = new LoginRequestModel();
+            LoginResponseModel loginResponseModel = new LoginResponseModel();
+            if(ModelState.IsValid==false)
+            {
+                loginResponseModel.sucsess = false;
+                loginResponseModel.message = "verilenler tam daxil edilmeyib";
+            }
+            else
+            {
+                var token = await _tokenService.GenerateTokenAsync(request.GmailAdress);
+                loginResponseModel.token = token;
+                loginResponseModel = await _authService.Login(loginRequestModel);
+            }
+            return loginResponseModel;
         }
     }
 }
