@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using BankSystem.Domain.Dtos;
 using BankSystem.Domain.Dtos.UserRequests;
+using BankSystem.Domain.Entities;
 using BankSystem.Domain.Services;
 using BankSystem.Repository.Repositories;
 using Dapper;
@@ -29,17 +30,17 @@ namespace BankSystem.SQL.Server.Repositories.AuthRepository
         public async Task<bool> CreateUser(CustomerRegistration _user)
         {
             var conn = await OpenSqlConnectionAsync();
-            var InsertedColumbs = await conn.ExecuteAsync($"INSERT INTO CustomerRegistration (UserId,Name,SurName,DateOfBirth,Gender,GmailAdress,Password,Number) VALUES (@userid,@name,@surname,@dateofbirth,@gender,@gmailadress,@password,@number)", new { userid = _user.UserId, name = _user.Name, surname = _user.surName, dateofbirth = _user.DateOfBirth, gender = _user.Gender, gmailadress = _user.GamailAdress, password = _user.Password, number = _user.Number });
+            var InsertedColumbs = await conn.ExecuteAsync($"INSERT INTO CustomerRegistration (UserId,Name,SurName,DateOfBirth,Gender,GmailAdress,Password,Number) VALUES (@userid,@name,@surname,@dateofbirth,@gender,@gmailadress,@password,@number)", new { userid = _user.UserId, name = _user.Name, surname = _user.surName, dateofbirth = _user.DateOfBirth, gender = _user.Gender, gmailadress = _user.GmailAdress, password = _user.Password, number = _user.Number });
             await conn.CloseAsync();
             return InsertedColumbs != 0;
         }
 
-        public async Task<LoginResponseModel> Login(LoginRequestModel loginRequestModel)
+        public async Task<LoginResponseModel> Login(CustomerRegistration customer)
         {
             LoginResponseModel loginResponseModel = new LoginResponseModel();
             var conn = await OpenSqlConnectionAsync();
-            var intresult = conn.QueryFirstAsync<int>($"SELECT COUNT(1) FROM CustomerRegistration WHERE GmailAdress = @gmailadress AND Password = @password", new { gmailadress = loginRequestModel.GmailAdress, password = loginRequestModel.Password });
-            if (await intresult == 1) 
+            var intresult = conn.QueryFirstAsync<int>($"SELECT COUNT(1) FROM CustomerRegistration WHERE GmailAdress = @gmailadress AND Password = @password", new { gmailadress = customer.GmailAdress, password = customer.Password });
+            if (await intresult != 0) 
             {
                 await conn.CloseAsync();
                 loginResponseModel.sucsess = true;

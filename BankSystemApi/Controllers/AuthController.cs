@@ -3,6 +3,7 @@ using Azure.Core;
 using BankSystem.Application.Services;
 using BankSystem.Domain.Dtos;
 using BankSystem.Domain.Dtos.UserRequests;
+using BankSystem.Domain.Entities;
 using BankSystem.Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

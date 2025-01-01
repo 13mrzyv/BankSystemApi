@@ -1,8 +1,10 @@
 ﻿using Amazon.Runtime.Internal.Util;
+using AutoMapper;
 using Azure;
 using Azure.Core;
 using BankSystem.Domain.Dtos;
 using BankSystem.Domain.Dtos.UserRequests;
+using BankSystem.Domain.Entities;
 using BankSystem.Domain.Services;
 using BankSystem.Repository.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
@@ -20,9 +22,11 @@ namespace BankSystem.Application.Services
     public class AuthService : IAuthService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public AuthService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public AuthService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task<bool> CreateUser(CustomerRegistration _user)
@@ -33,7 +37,8 @@ namespace BankSystem.Application.Services
 
         public async Task<LoginResponseModel> Login(LoginRequestModel loginRequestModel)
         {
-            var result = await _unitOfWork.AuthRepository.Login(loginRequestModel);
+            var customer = _mapper.Map<CustomerRegistration>(loginRequestModel); //sagdaki soldakinnen alir
+            var result = await _unitOfWork.AuthRepository.Login(customer);
             return result;
         }
     }

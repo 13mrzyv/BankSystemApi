@@ -1,3 +1,4 @@
+using BankSystem.Application.Mapping;
 using BankSystem.Application.Services;
 using BankSystem.Domain.Entities;
 using BankSystem.Domain.Services;
@@ -9,7 +10,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using AutoMapper;
 using System.Text;
+using AutoMapper.Extensions.Microsoft.DependencyInjection;
+
 
 //
 var builder = WebApplication.CreateBuilder(args);
@@ -38,10 +42,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidAudience = jwtSettings["Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]))
         };
-    }); builder.Services.AddAuthorization();
+    }); 
+builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
 
+builder.Services.AddAutoMapper(typeof(MapProfile));
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -61,6 +67,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
 
 app.UseHttpsRedirection();
 

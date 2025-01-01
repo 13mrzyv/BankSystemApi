@@ -1,5 +1,6 @@
 ﻿using BankSystem.Domain.Dtos;
 using BankSystem.Domain.Dtos.UserRequests;
+using BankSystem.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
