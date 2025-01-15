@@ -8,8 +8,8 @@ namespace BankSystem.Domain.Dtos.UserRequests
 {
     public class UserInsertRequest
     {
-        public int UsertId { get; set; }    
+        public int UserId { get; set; }    
         public string Name { get; set; }
-        public string PrizeBonus { get; set; }
+        public string PrizesBonus { get; set; }
     }
 }

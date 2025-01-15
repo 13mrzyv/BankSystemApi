@@ -49,10 +49,10 @@ namespace BankSystem.SQL.Server.Repositories.UserRepository
             await conn.CloseAsync();
             return InsertedColumbs != 0;
         }
-        public async Task<bool> InsertUser(UserInsertRequest request) 
+        public async Task<bool> InsertUser(User user) 
         {
             var conn = await OpenSqlConnectionAsync();
-            var InsertedColumbs = await conn.ExecuteAsync($"INSERT INTO Users (UserId,Name,IsDeleted,PrizesBonus) VALUES (@userid,@name,0,@prizebonus)", new {userid=request.UsertId, name = request.Name,prizebonus=request.PrizeBonus});
+            var InsertedColumbs = await conn.ExecuteAsync($"INSERT INTO Users (UserId,Name,IsDeleted,PrizesBonus) VALUES (@userid,@name,0,@prizebonus)", new {userid=user.UserId, name = user.Name,prizebonus=user.PrizesBonus});
             await conn.CloseAsync();
             return InsertedColumbs != 0;
         }

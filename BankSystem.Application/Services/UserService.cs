@@ -1,4 +1,5 @@
-﻿using BankSystem.Domain.Dtos.UserRequests;
+﻿using AutoMapper;
+using BankSystem.Domain.Dtos.UserRequests;
 using BankSystem.Domain.Entities;
 using BankSystem.Domain.Services;
 using BankSystem.Repository.UnitOfWork;
@@ -14,9 +15,11 @@ namespace BankSystem.Application.Services
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public UserService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public UserService(IUnitOfWork unitOfWork,IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         public async Task<User> GetUserById(int userId)
         {
@@ -39,12 +42,12 @@ namespace BankSystem.Application.Services
             {
                 return null;
             }
-
             return users;
         }
         public async Task<bool> InsertUser(UserInsertRequest request)  //
         {
-            var result = await _unitOfWork.UserRepository.InsertUser(request);
+            var user = _mapper.Map<User>(request);
+            var result = await _unitOfWork.UserRepository.InsertUser(user);
             return result;
         }
         public async Task<User> DeleteUserById(int userId)

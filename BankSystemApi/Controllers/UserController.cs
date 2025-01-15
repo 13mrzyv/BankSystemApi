@@ -2,12 +2,14 @@
 using BankSystem.Domain.Dtos.UserRequests;
 using BankSystem.Domain.Entities;
 using BankSystem.Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 
 namespace BankSystemApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserController : ControllerBase

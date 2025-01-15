@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using BankSystem.Application.Services;
 using BankSystem.Domain.Entities;
 using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BankSystemApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class PrizeController : ControllerBase

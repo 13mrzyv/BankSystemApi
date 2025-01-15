@@ -17,15 +17,15 @@ namespace BankSystemApi.Controllers
     {
         private readonly IAuthService _authService;
         private readonly ITokenService _tokenService;
-       
+
 
         public AuthController(IAuthService authService, ITokenService tokenService)
         {
             _authService = authService;
             _tokenService = tokenService;
-   
-        }
 
+        }
+        []
         [HttpPost]
         public async Task<bool> CreateUser(CustomerRegistration _user)
         {

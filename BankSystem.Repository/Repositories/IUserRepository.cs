@@ -13,7 +13,7 @@ namespace BankSystem.Repository.Repositories
     {
         Task<IEnumerable<User>> GetUsersAsync();
         Task<User> GetUserById(int userId);
-        Task<bool> InsertUser(UserInsertRequest request);  //
+        Task<bool> InsertUser(User user);  //
         Task<User> DeleteUserById(int userId);
         Task<bool> UpdateUserById(User user);
     }

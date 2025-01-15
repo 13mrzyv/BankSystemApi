@@ -14,6 +14,7 @@ namespace BankSystem.Application.Mapping
         public MapProfile()
         {
             CreateMap<LoginRequestModel,CustomerRegistration>().ReverseMap();
+            CreateMap<UserInsertRequest, User>().ReverseMap();
         }
     }
 }
