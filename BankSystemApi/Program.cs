@@ -58,7 +58,8 @@ builder.Services.AddHostedService<PrizesBackGroundService>();
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen(options =>
+//Authorize
+builder.Services.AddSwaggerGen(options =>  
 {
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
@@ -85,6 +86,7 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+//
 
 var app = builder.Build();
 
@@ -98,7 +100,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
+app.UseAuthentication();  //
 app.UseAuthorization();
 
 app.MapControllers();

@@ -21,7 +21,6 @@ namespace BankSystemApi.Controllers
         {
             _prizeService = prizeService;
         }
-
         [HttpGet]
         public async Task<IEnumerable> GetPrizes()
         {

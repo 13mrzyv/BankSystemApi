@@ -27,7 +27,6 @@ namespace BankSystemApi.Controllers
             return users;
         }
 
-
         [HttpGet]
         public async Task<Microsoft.AspNetCore.Mvc.IActionResult> GetUserById(int userId)
         {

@@ -29,7 +29,7 @@ namespace BankSystem.Application.Services
             var token = new JwtSecurityToken(
                 _configuration["JwtSettings:Issuer"], // Issuer
                 _configuration["JwtSettings:Audience"], // Audience
-                expires: DateTime.UtcNow.AddMinutes(30), // Token süresi
+                expires: DateTime.UtcNow.AddHours(3), // Token süresi 
                 claims: claims,
                 signingCredentials: credentials
             );

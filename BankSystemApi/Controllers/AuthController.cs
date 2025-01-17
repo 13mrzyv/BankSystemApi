@@ -25,7 +25,6 @@ namespace BankSystemApi.Controllers
             _tokenService = tokenService;
 
         }
-        []
         [HttpPost]
         public async Task<bool> CreateUser(CustomerRegistration _user)
         {
